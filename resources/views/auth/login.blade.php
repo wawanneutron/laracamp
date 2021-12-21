@@ -1,4 +1,4 @@
-@extends('layouts.app-login')
+@extends('layouts.app-login', ['title' => 'Login Laracamp'])
 @section('content')
     <section class="login-user">
         <div class="left">
