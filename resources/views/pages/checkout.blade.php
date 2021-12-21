@@ -57,7 +57,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <button type="submit" class="w-100 btn btn-primary">Pay Now</button>
+                                <a href="{{ route('success') }}" type="submit" class="w-100 btn btn-primary">Pay Now</a>
                                 <p class="text-center subheader mt-4">
                                     <img src="{{ asset('/assets/images/ic_secure.svg') }}" alt=""> Your payment is secure and encrypted.
                                 </p>
