@@ -1,7 +1,7 @@
 <nav class="navbar navbar-expand-lg navbar-light">
     <div class="container">
-        <a class="navbar-brand" href="#">
-            <img src="/assets/images/logo.png" alt="">
+        <a class="navbar-brand" href="/">
+            <img src="{{ asset('/assets/images/logo.png') }}" alt="">
         </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -22,10 +22,10 @@
                 </li>
             </ul>
             <div class="d-flex">
-                <a href="#" class="btn btn-master btn-secondary me-3">
+                <a href="/login" class="btn btn-master btn-secondary me-3">
                     Sign In
                 </a>
-                <a href="#" class="btn btn-master btn-primary">
+                <a href="/login" class="btn btn-master btn-primary">
                     Sign Up
                 </a>
             </div>
