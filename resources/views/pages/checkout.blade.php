@@ -1,4 +1,4 @@
-@extends('layouts.app-auth', ['title' => 'Checkout Bootcamp'])
+@extends('layouts.app', ['title' => 'Checkout Bootcamp'])
 @section('content')
     <section class="checkout">
         <div class="container">

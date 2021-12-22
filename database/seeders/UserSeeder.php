@@ -20,6 +20,7 @@ class UserSeeder extends Seeder
             'email_verified_at' => date('Y-m-d H:i:s'),
             'password'  =>  bcrypt('password'),
             'is_admin'  =>  true,
+            'created_at' => date('Y-m-d H:i:s')
         ]);
     }
 }

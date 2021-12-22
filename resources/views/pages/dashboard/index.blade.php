@@ -1,4 +1,4 @@
-@extends('layouts.app-auth', ['title' => 'Dashboard'])
+@extends('layouts.app', ['title' => 'Dashboard'])
 @section('content')
     <section class="dashboard my-5">
         <div class="container">

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,9 +17,11 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('pages.home');
 })->name('home');
-Route::get('/login', function () {
-    return view('auth.login-oauth');
-})->name('login');
+// login socialite
+Route::get('/login', [UserController::class, 'login'])->name('login');
+Route::get('/sign-in-google', [UserController::class, 'google'])->name('user.login.google');
+Route::get('/auth/google/callback', [UserController::class, 'handleGoogleCallback'])->name('google.callback');
+
 Route::get('/checkout', function () {
     return view('pages.checkout');
 })->name('checkout');
