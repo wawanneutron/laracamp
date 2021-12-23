@@ -27,7 +27,7 @@
                         Helo, {{ auth()->user()->name }}!
                         <img src="{{ auth()->user()->avatar }}"  class="user-photo rounded-circle shadow">
                         <ul class="dropdown-menu" aria-labelledby="dropdownUser" style="right: 0; left: auto;">
-                            <li><a class="dropdown-item" href="#" onclick="alert('dashbord not found')">My Dashboard</a></li>
+                            <li><a class="dropdown-item" href="{{ route('dashboard-laracamp') }}">My Dashboard</a></li>
                             <li>
                                 <a class="dropdown-item" href="#" onclick="logout(event)">Sign Out</a>
                                 <form id="logout-form" action="{{ route('logout') }}" method="post">
