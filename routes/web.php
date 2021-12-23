@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\User\CheckoutController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -22,12 +23,10 @@ Route::get('/login', [UserController::class, 'login'])->name('login');
 Route::get('/sign-in-google', [UserController::class, 'google'])->name('user.login.google');
 Route::get('/auth/google/callback', [UserController::class, 'handleGoogleCallback'])->name('google.callback');
 
-Route::get('/checkout', function () {
-    return view('pages.checkout');
-})->name('checkout');
-Route::get('/success-checkout', function () {
-    return view('pages.success-checkout');
-})->name('success');
+Route::get('checkout/{camp:slug}', [CheckoutController::class, 'create'])->name('user.checkout');
+Route::post('checkout/{camp:slug}', [CheckoutController::class, 'store'])->name('checkout.store');
+Route::get('success-checkout', [CheckoutController::class, 'successCheckout'])->name('success.checkout');
+
 Route::get('/dashboard/laracamp', function () {
     return view('pages.dashboard.index');
 })->name('dashboard-laracamp');
