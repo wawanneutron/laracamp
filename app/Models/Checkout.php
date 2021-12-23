@@ -10,10 +10,16 @@ class Checkout extends Model
 {
     use HasFactory, SoftDeletes;
     public $timestamps = false;
+    protected $dates   = ['created_at'];
 
     protected $fillable = [
         'user_id', 'camp_id', 'card_number', 'expired', 'cvc', 'is_paid', 'created_at'
     ];
+
+    public function camp()
+    {
+        return $this->belongsTo(Camp::class);
+    }
 
     public function setExpiredAttribute($value)
     {
