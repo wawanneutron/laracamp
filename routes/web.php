@@ -29,6 +29,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('checkout/{camp:slug}', [CheckoutController::class, 'store'])->name('checkout.store');
     Route::get('success-checkout', [CheckoutController::class, 'successCheckout'])->name('success.checkout');
     Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard-laracamp');
+    Route::get('dashboard/checkout/invoice/{checkout}', [CheckoutController::class, 'invoice'])->name('user.checkout.invoice');
 });
 
 // Route::get('/dashboard', function () {
