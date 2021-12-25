@@ -25,7 +25,7 @@
                 <div class="d-flex user-logged dropdown">
                     <a href="#" id="dropdownUser" data-bs-toggle="dropdown" aria-expanded="false">
                         Helo, {{ auth()->user()->name }}!
-                        <img src="{{ auth()->user()->avatar }}"  class="user-photo rounded-circle shadow">
+                        <img src="{{ Auth::user()->getAvatar() }}"  class="user-photo rounded-circle shadow">
                         <ul class="dropdown-menu" aria-labelledby="dropdownUser" style="right: 0; left: auto;">
                             <li><a class="dropdown-item" href="{{ route('dashboard-laracamp') }}">My Dashboard</a></li>
                             <li>

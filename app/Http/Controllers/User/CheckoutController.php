@@ -32,7 +32,7 @@ class CheckoutController extends Controller
     {
         if ($camp->isRegistered) {
             $request->session()->flash('error', "You already registered on {$camp->title} camp.");
-            return redirect(route('dashboard-laracamp'));
+            return redirect(route('user.dashboard'));
         }
         return view('pages.checkout.index', ['camp' => $camp]);
     }
@@ -116,10 +116,5 @@ class CheckoutController extends Controller
     public function successCheckout()
     {
         return view('pages.checkout.success-checkout');
-    }
-
-    public function invoice(Checkout $checkout)
-    {
-        return $checkout;
     }
 }

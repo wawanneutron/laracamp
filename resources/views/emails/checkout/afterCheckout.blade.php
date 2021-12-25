@@ -11,8 +11,8 @@ Anda belum melakukan pembayaran pada kelas <b>{{ $userCheckout->camp->title }}</
 Silahkan melakukan pembayaran agar bisa mengakses kursus yang kamu pilih
 @endcomponent
 
-@component('mail::button', ['url' => route('user.checkout.invoice', $userCheckout->id), 'color' => 'primary'])
-Lihat Invoice
+@component('mail::button', ['url' => route('dashboard-laracamp'), 'color' => 'primary'])
+Lihat Dashboard
 @endcomponent
 
 Thanks,<br> <br>
