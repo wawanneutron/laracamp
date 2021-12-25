@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\CheckoutController as AdminCheckoutController;
 use App\Http\Controllers\User\DashboardController as UserDashboard;
 use App\Http\Controllers\Admin\DashboardController as AdminDashboard;
 use App\Http\Controllers\HomeController;
@@ -31,6 +32,9 @@ Route::middleware(['auth'])->group(function () {
         ->middleware('ensureUserRole:admin')
         ->group(function () {
             Route::get('/', [AdminDashboard::class, 'index'])->name('dashboard');
+            // admin checkout
+            Route::post('checkout/set-to-paid/{checkout}', [AdminCheckoutController::class, 'updatePaid'])->name('update.paid');
+            Route::post('checkout/cancle-to-paid/{checkout}', [AdminCheckoutController::class, 'updatePaid'])->name('update.cancle');
         });
 });
 
