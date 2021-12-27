@@ -182,4 +182,49 @@ class CheckoutController extends Controller
             echo  $e->getMessage();
         }
     }
+    /**
+     * call back function midtrans
+     */
+    public function midtransCallback(Request $request)
+    {
+        $notif = new Midtrans\Notification();
+
+        $transaction_status = $notif->transaction_status;
+        $fraud = $notif->fraud_status;
+
+        $checkout_id = explode('-', $notif->order_id)[0];
+        $checkout = Checkout::find($checkout_id);
+
+        if ($transaction_status == 'capture') {
+            if ($fraud == 'challenge') {
+                // TODO Set payment status in merchant's database to 'challenge'
+                $checkout->payment_status = 'pending';
+            } else if ($fraud == 'accept') {
+                // TODO Set payment status in merchant's database to 'success'
+                $checkout->payment_status = 'paid';
+            }
+        } else if ($transaction_status == 'cancel') {
+            if ($fraud == 'challenge') {
+                // TODO Set payment status in merchant's database to 'failure'
+                $checkout->payment_status = 'failed';
+            } else if ($fraud == 'accept') {
+                // TODO Set payment status in merchant's database to 'failure'
+                $checkout->payment_status = 'failed';
+            }
+        } else if ($transaction_status == 'deny') {
+            // TODO Set payment status in merchant's database to 'failure'
+            $checkout->payment_status = 'failed';
+        } else if ($transaction_status == 'settlement') {
+            $checkout->payment_status = 'paid';
+            // TODO set payment status in merchant's database to 'Settlement'
+        } else if ($transaction_status == 'pending') {
+            $checkout->payment_status = 'pending';
+            // TODO set payment status in merchant's database to 'Pending'
+        } else if ($transaction_status == 'expire') {
+            $checkout->payment_status = 'failed';
+            // TODO set payment status in merchant's database to 'expire'
+        }
+        $checkout->save();
+        return view('pages.checkout.success-checkout');
+    }
 }
