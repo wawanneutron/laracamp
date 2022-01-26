@@ -12,6 +12,7 @@ use Illuminate\Http\Request;
 use App\Models\Camp;
 use App\Models\Checkout;
 use Exception;
+use Illuminate\Support\Facades\DB;
 use Midtrans;
 
 class CheckoutController extends Controller
@@ -56,29 +57,29 @@ class CheckoutController extends Controller
      */
     public function store(StoreRequest $request, Camp $camp)
     {
+        DB::transaction(function () use ($request, $camp) {
+            // mapping request data
+            $data = $request->only([
+                'name', 'email', 'occupation', 'phone', 'address'
+            ]);
+            $data['user_id'] = auth()->user()->id;
+            $data['camp_id'] = $camp->id;
 
-        // mapping request data
-        $data = $request->only([
-            'name', 'email', 'occupation', 'card_number', 'expired', 'cvc'
-        ]);
-        $data['user_id'] = auth()->user()->id;
-        $data['camp_id'] = $camp->id;
-        $data['created_at'] = date('Y-m-d H:i:s');
-
-        // update user data
-        $user = Auth::user();
-        $user->name = $data['name'];
-        $user->email = $data['email'];
-        $user->occupation = $data['occupation'];
-        $user->save();
-
-        // create checkout
-        $checkout = Checkout::create($data);
-        // midtrans
-        $this->getSnapRedirect($checkout);
-        // send email
-        Mail::to($user->email)->send(new AfterCheckout($checkout));
-        return redirect(route('success.checkout'));
+            // update user data
+            $user = Auth::user();
+            $user->name = $data['name'];
+            $user->email = $data['email'];
+            $user->occupation = $data['occupation'];
+            $user->phone = $data['phone'];
+            $user->address = $data['address'];
+            $user->save();
+            // create checkout
+            $checkout = Checkout::create($data);
+            $this->getSnapRedirect($checkout);
+            // send email
+            Mail::to($user->email)->send(new AfterCheckout($checkout));
+            return redirect(route('success.checkout'));
+        });
     }
 
     /**
@@ -173,14 +174,11 @@ class CheckoutController extends Controller
             'item_details'          =>  $item_details,
             'customer_details'      =>  $customer_details
         ];
-        try {
-            // get snap payment URL
-            $paymentUrl = \Midtrans\Snap::createTransaction($midtrans_params)->redirect_url;
-            $checkout->midtrans_url = $paymentUrl;
-            $checkout->save();
-        } catch (Exception $e) {
-            echo  $e->getMessage();
-        }
+        // get snap payment URL
+        $paymentUrl = \Midtrans\Snap::createTransaction($midtrans_params)->redirect_url;
+        $checkout->midtrans_url = $paymentUrl;
+        $checkout->created_at = date('Y-m-d H:i:s');
+        $checkout->save();
     }
     /**
      * call back function midtrans
