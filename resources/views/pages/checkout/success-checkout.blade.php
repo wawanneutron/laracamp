@@ -15,7 +15,8 @@
                     </h2>
                     <a href="{{ route('dashboard-laracamp') }}" class="btn btn-primary mt-3">
                         My Dashboard
-                    </a>
+                    </a> <br> <br>
+                    <span>Sialhkan menuju halaman dashboard <br> untuk melakukan pembayaran</span>
                 </div>
             </div>
         </div>

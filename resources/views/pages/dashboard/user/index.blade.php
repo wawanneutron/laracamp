@@ -33,17 +33,15 @@
                                     <strong>${{ $checkout->camp->price }},000</strong>
                                 </td>
                                 <td>
-                                    @if ($checkout->is_paid)
-                                        <strong class="text-success">Payment Success</strong>
-                                    @else
-                                        <strong>Waiting for Payment</strong>
-                                    @endif
+                                    <strong class="text-success">{{ $checkout->payment_status }}</strong>
                                 </td>
-                                <td>
-                                    <a href="https://wa.me/087732697337?text=Hallo saya ingin bertanya tentang kelas {{ $checkout->camp->title }}" target="__balnk" class="btn btn-primary">
-                                        Contact Support
-                                    </a>
-                                </td>
+                                @if ($checkout->payment_status == 'waiting')
+                                    <td>
+                                        <a href="{{ $checkout->midtrans_url }}" target="__balnk" class="btn btn-primary">
+                                            get payment
+                                        </a>
+                                    </td>
+                                @endif
                             </tr>
                         @empty
                             <tr>

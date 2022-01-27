@@ -57,29 +57,27 @@ class CheckoutController extends Controller
      */
     public function store(StoreRequest $request, Camp $camp)
     {
-        DB::transaction(function () use ($request, $camp) {
-            // mapping request data
-            $data = $request->only([
-                'name', 'email', 'occupation', 'phone', 'address'
-            ]);
-            $data['user_id'] = auth()->user()->id;
-            $data['camp_id'] = $camp->id;
+        // mapping request data
+        $data = $request->only([
+            'name', 'email', 'occupation', 'phone', 'address'
+        ]);
+        $data['user_id'] = auth()->user()->id;
+        $data['camp_id'] = $camp->id;
 
-            // update user data
-            $user = Auth::user();
-            $user->name = $data['name'];
-            $user->email = $data['email'];
-            $user->occupation = $data['occupation'];
-            $user->phone = $data['phone'];
-            $user->address = $data['address'];
-            $user->save();
-            // create checkout
-            $checkout = Checkout::create($data);
-            $this->getSnapRedirect($checkout);
-            // send email
-            Mail::to($user->email)->send(new AfterCheckout($checkout));
-            return redirect(route('success.checkout'));
-        });
+        // update user data
+        $user = Auth::user();
+        $user->name = $data['name'];
+        $user->email = $data['email'];
+        $user->occupation = $data['occupation'];
+        $user->phone = $data['phone'];
+        $user->address = $data['address'];
+        $user->save();
+        // create checkout
+        $checkout = Checkout::create($data);
+        $this->getSnapRedirect($checkout);
+        // send email
+        Mail::to($user->email)->send(new AfterCheckout($checkout));
+        return redirect(route('success.checkout'));
     }
 
     /**
@@ -185,7 +183,9 @@ class CheckoutController extends Controller
      */
     public function midtransCallback(Request $request)
     {
-        $notif = new Midtrans\Notification();
+        $notif = $request->method() == 'POST' ?
+            new Midtrans\Notification() :
+            Midtrans\Transaction::status($request->order_id);
 
         $transaction_status = $notif->transaction_status;
         $fraud = $notif->fraud_status;
